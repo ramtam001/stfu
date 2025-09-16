@@ -1,0 +1,78 @@
+using System;
+
+class Calculator
+{
+    // Главный метод программы - точка входа
+    static void Main()
+    {
+        // Вывод заголовка и правил использования
+        Console.WriteLine("SIMPLE CALCULATOR");
+        Console.WriteLine("RULES:");
+        Console.WriteLine("- Numbers cannot exceed 100,000,000");
+        Console.WriteLine("- Division by zero is forbidden");
+        Console.WriteLine("- Only numbers and + - * / operations allowed");
+        Console.WriteLine("- Type 'exit' to quit");
+        Console.WriteLine("----------------------------");
+        
+        // Основной цикл программы - работает пока пользователь не введет 'exit'
+        while (true)
+        {
+            // Ввод первого числа
+            Console.Write("First number (or 'exit'): ");
+            string input1 = Console.ReadLine();
+            if (input1 == "exit") break; // Проверка на выход из программы
+            
+            // Ввод операции
+            Console.Write("Operation (+, -, *, /): ");
+            string op = Console.ReadLine();
+            if (op == "exit") break; // Проверка на выход из программы
+            
+            // Ввод второго числа
+            Console.Write("Second number: ");
+            string input2 = Console.ReadLine();
+            if (input2 == "exit") break; // Проверка на выход из программы
+
+            // Парсинг введенных чисел с проверкой корректности
+            if (double.TryParse(input1, out double num1) && double.TryParse(input2, out double num2))
+            {
+                // Проверка ограничения по величине числа (10^8)
+                if (Math.Abs(num1) > 100000000 || Math.Abs(num2) > 100000000)
+                {
+                    Console.WriteLine("ERROR: Number cannot exceed 100,000,000");
+                    continue; // Переход к следующей итерации цикла
+                }
+
+                // Проверка деления на ноль
+                if (op == "/" && num2 == 0)
+                {
+                    Console.WriteLine("ERROR: Division by zero is forbidden");
+                    continue; // Переход к следующей итерации цикла
+                }
+
+                // Выполнение математической операции
+                double result = 0;
+                if (op == "+") result = num1 + num2;        // Сложение
+                else if (op == "-") result = num1 - num2;   // Вычитание
+                else if (op == "*") result = num1 * num2;   // Умножение
+                else if (op == "/") result = num1 / num2;   // Деление
+                else
+                {
+                    // Ошибка неверной операции
+                    Console.WriteLine("ERROR: Only + - * / operations allowed");
+                    continue; // Переход к следующей итерации цикла
+                }
+
+                // Вывод результата вычислений
+                Console.WriteLine("Result: " + result);
+            }
+            else
+            {
+                // Ошибка неверного формата чисел
+                Console.WriteLine("ERROR: Only numbers are allowed");
+            }
+            
+            // Разделитель для визуального отделения операций
+            Console.WriteLine("----------------------------");
+        }
+    }
+}
